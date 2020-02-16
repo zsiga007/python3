@@ -7,7 +7,7 @@ def get_player_moves( die1, die2 ):
     ## temporary:
     return []
 
-def is_move_possible( board, player, fromPoint, toPoint ):
+def is_move_possible( board, player, fromPoint, toPoint ):##we have done this in board util
     """
     Checks if a given move is legitimate
     (only makes sure that there is no checker waiting on the bar

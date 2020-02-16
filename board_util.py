@@ -1,4 +1,6 @@
 import dict_repr as board_repr
+## maybe we could use: 'from dict_repr import *' as it imports everything as I know and we do not have to refer to it always by name
+## link to source: https://www.digitalocean.com/community/tutorials/how-to-import-modules-in-python-3
 import vertical_draw as draw
 
 ## Represent the opponents (and their checkers etc.) with

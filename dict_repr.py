@@ -54,9 +54,6 @@ def has_checker( player, board, fromPoint ):
     #temporary:
     if board["points_colour"][fromPoint]==player:
         return True
-def has_checkers_on_bar( player, board ):## on these bars player has checkers
-    checkerlist=[]
-    for i in range(24):
-        if board["points_colour"][i]==player:
-            checkerlist.append(i)
-    return checkerlist
+def has_checkers_on_bar( player, board ):
+    if board["bar"][player]==0:
+        return False
