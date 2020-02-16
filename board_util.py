@@ -21,10 +21,10 @@ def ask_player_and_move( board, next_player, die1, die2 ):
         for i in range(1):
             fromPoint=input('Which checker to move? ')
             toPoint=input('Where to move? ')
-            a=abs(fromPoint-toPoint)
+            a=abs(fromPoint-toPoint) ## checking length of move
             while a in l and len(l)>1:
                 if a==die1:
-                    del l[-3]
+                    del l[-3] ##deleting possible moves if played
                 if a==die2:
                     del l[-2]
                 if a==die1+die2:
