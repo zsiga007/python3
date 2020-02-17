@@ -1,11 +1,29 @@
 ## tasks remaining for `ask_player_and_move()`
 
-def get_player_moves( die1, die2 ):
-    """
-    Return a list of moves the given player wants to make
-    """
-    ## temporary:
-    return []
+from dict_repr import *
+
+    ## I later realised that at tasks.py there is get player moves and what I did is quite similar...
+    ## function for asking the player and converting their answer to moves I complete the move function in dict_repr;
+    l=[die1,die2,die1+die2]
+    if die1!=die2: ##this is just a hand-crafted method for the simpler method used below at die1==die2, but this may be used in another function...
+        for i in range(1):
+            fromPoint=int(input('Which checker to move? '))
+            toPoint=int(input('Where to move? '))
+            a=abs(fromPoint-toPoint) ## checking length of move
+            while a in l and len(l)>1:
+                if a==die1:
+                    del l[-3] ##deleting possible moves if played
+                if a==die2:
+                    del l[-2]
+                if a==die1+die2:
+                    l=[] ##because max number of steps is reached
+                if is_move_possible( board, next_player, fromPoint, toPoint )==True:
+                    move( board, next_player, fromPoint, toPoint )
+    if die1==die2:
+        i=int(input())
+        if len(legitimate_moves( board, next_player, die1, die2 )[i])==4: ##assuring that they select a sequence which is 4 long, so double moves are not distincted
+            for j in range(3): ## this will execute the 4 moves included in the sub-list
+                move( board, next_player, legitimate_moves( board, next_player, die1, die2 )[i][j][0], legitimate_moves( board, next_player, die1, die2 )[i][j][1] )##we assume that legitimate_moves is a list including lists of two long lists which represent the start and endpoints of a step
 
 def is_move_possible( board, player, fromPoint, toPoint ):##we have done this in board util
     """
@@ -23,11 +41,44 @@ def possible_moves( board, player, die ):
     Return a list of alternative moves that this player can make
     on this board with this die rolled.
     """
-    ## temporary:
-    return []
+    ##as I see in dict_repr according to the rules black will go positive numbers along the list and red will go in the opposite negative direction
+    ##as the list starts at the bottom right corner and goes up to the top right
+    posslist=[]
+    if has_checkers_on_bar(player, board)!=False:
+        if player==0:
+            if colour(board,24-die)==player or number_of_pieces( board, 24-die )<=1:
+                posslist.append('bar',24-die)
+        elif colour(board,die)==player or number_of_pieces( board, die )<=1:
+            posslist.append('bar',die)
+            
+    else:
+        if player==0:
+            directionfactor=-1
+        else:
+            directionfactor=1
+        for i in range(23):
+            if colour(board,i)==player: ##checks if player has piece on point and if they can move with it
+                if board["pointscolour"][i+directionfactor*die]==player or number_of_pieces( board, i+directionfactor*die )<=1:
+                    posslist.append(i,i+directionfactor*die)
+    return posslist
 
-## This is the hardest one:
+## Observe that after a move the allowed places where player can jump are 'almost' invariant (because if it jumps from a point where only 
+## one of his pieces were, than that option vanishes...) as the other does not move until then, hence the die1!=die2 should not be too hard
 def legitimate_moves( board, player, die1, die2 ):
+    flist=[]
+    if die1!=die2:
+        posslist1=possible_moves( board, player, die1 )
+        posslist2=possible_moves( board, player, die2 )
+        for j in range(len(posslist1)):
+            for i in range(len(posslist2)):
+                if posslist1[j][0]!=posslist2[i][0]:
+                    flist.append([posslist1[j],posslist2[i]]) ##this is definitely a valid sequence finally!!!
+                elif number_of_pieces( board,posslist1[j][0])!=1: ##checking the mentioned only tricky case
+                    flist.append([posslist1[j],posslist2[i]]) ##else we moved from the point (where only one was), so the sequence cannot be continued from there
+                    ## note this flist is not yet complete even in this case as we could move from a point where we moved thanks to the throw with the other die,
+                    ## which hence generated a new fromPoint, so I am thinking, maybe we should do a copy of the board where we try these changes which are not permanent
+                    ## just a way to check the new possible sequences, from now on I am not quite sure how to continue this part
+
     """
     Return a list of move sequences that are legitimate.
     Unfortunately, in some cases we have to calculate all
