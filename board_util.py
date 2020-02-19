@@ -20,8 +20,11 @@ def ask_player_and_move( board, next_player, die1, die2 ):
     l=[die1,die2,die1+die2]
     if die1!=die2: ##this is just a hand-crafted method for the simpler method used below at die1==die2, but this may be used in another function...
         for i in range(1):
-            fromPoint=int(input('Which checker to move? '))
-            toPoint=int(input('Where to move? '))
+            try:
+                fromPoint=int(input())
+                except ValueError:
+                    ##pieces=line.split(' ')
+            
             a=abs(fromPoint-toPoint) ## checking length of move
             while a in l and len(l)>1:
                 if a==die1:
