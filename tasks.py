@@ -2,7 +2,6 @@
 
 from dict_repr import *
 
-    ## I later realised that at tasks.py there is get player moves and what I did is quite similar...
     ## function for asking the player and converting their answer to moves I complete the move function in dict_repr;
     l=[die1,die2,die1+die2]
     if die1!=die2: ##this is just a hand-crafted method for the simpler method used below at die1==die2, but this may be used in another function...
@@ -45,14 +44,14 @@ def possible_moves( board, player, die ):
     ##as the list starts at the bottom right corner and goes up to the top right
     posslist=[]
     if has_checkers_on_bar(player, board)!=False:
-        if player==0:
+        if playercolor(player)==True:
             if colour(board,24-die)==player or number_of_pieces( board, 24-die )<=1:
                 posslist.append('bar',24-die)
         elif colour(board,die)==player or number_of_pieces( board, die )<=1:
             posslist.append('bar',die)
             
     else:
-        if player==0:
+        if playercolor(player)==True:
             directionfactor=-1
         else:
             directionfactor=1

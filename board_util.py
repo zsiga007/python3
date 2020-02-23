@@ -20,11 +20,17 @@ def ask_player_and_move( board, next_player, die1, die2 ):
     l=[die1,die2,die1+die2]
     if die1!=die2: ##this is just a hand-crafted method for the simpler method used below at die1==die2, but this may be used in another function...
         for i in range(1):
-            try:
-                fromPoint=int(input())
-                except ValueError:
-                    ##pieces=line.split(' ')
-            
+            c=False
+            while c==False:
+              try:
+                  fromPoint = int(input("Enter a positive integer: ")) ##error handling added
+                  toPoint = int(input("Enter a positive integer: "))
+                  c = True
+                  if fromPoint < 0 or toPoint < 0:
+                    c=False
+              except ValueError:
+                c=False
+                
             a=abs(fromPoint-toPoint) ## checking length of move
             while a in l and len(l)>1:
                 if a==die1:
@@ -38,7 +44,7 @@ def ask_player_and_move( board, next_player, die1, die2 ):
     if die1==die2:
         i=int(input())
         if len(legitimate_moves( board, next_player, die1, die2 )[i])==4: ##assuring that they select a sequence which is 4 long, so double moves are not distincted
-            for j in range(3): ## this will execute the 4 moves included in the sub-list
+            for j in range(3): ## this will execute the 4 (it goes until 3 because range starts at 0) moves included in the sub-list
                 move( board, next_player, legitimate_moves( board, next_player, die1, die2 )[i][j][0], legitimate_moves( board, next_player, die1, die2 )[i][j][1] )##we assume that legitimate_moves is a list including lists of two long lists which represent the start and endpoints of a step        
     pass
 

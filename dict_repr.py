@@ -57,3 +57,8 @@ def has_checker( player, board, fromPoint ):
 def has_checkers_on_bar( player, board ):
     if board["bar"][player]==0:
         return False
+def playercolor(player):
+    if player==0:
+        return True
+    else:
+        return False
